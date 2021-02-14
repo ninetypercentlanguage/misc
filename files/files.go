@@ -25,14 +25,11 @@ func ReadFileThatMayNotExist(filePath string) ([]byte, bool) {
 
 // GetJSONWhenFileMayNotExist saves content to saveTo. Returns whether or not
 // file existed.  saves nothing to saveTo if file did not exist
-func GetJSONWhenFileMayNotExist(filePath string, saveTo interface{}) bool {
+func GetJSONWhenFileMayNotExist(filePath string, saveTo interface{}) (bool, error) {
 	bytes, exists := ReadFileThatMayNotExist(filePath)
 	if exists == false {
-		return false
+		return false, nil
 	}
 	err := json.Unmarshal(bytes, &saveTo)
-	if err != nil {
-		panic(err)
-	}
-	return true
+	return true, err
 }
